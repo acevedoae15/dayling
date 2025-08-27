@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AreaCar</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;500&family=Poppins:wght@600;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #fff;
+      color: #111;
+    }
+    .ubicacion {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.ubicacion h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.mapa-img {
+  width: 80%;        /* reduce el ancho general */
+  max-width: 500px;  /* no pasa de 500px */
+  height: auto;      /* mantiene proporción */
+  border-radius: 12px; /* bordes redondeados (opcional) */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5); /* sombreado elegante */
+}
+
+
+    /* HEADER */
+    header {
+      background: #000;
+      padding: 12px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* LOGO EN TEXTO */
+    .logo {
+      width: 150px;   /* ancho fijo */
+      height: 50px;   /* altura fija */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.4rem;   /* tamaño equilibrado */
+      color: #ffffff;      /* blanco */
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-icon {
+      color: #ff0000;     /* la “A” en rojo brillante */
+      font-size: 1.6rem;  /* apenas más grande */
+      font-weight: 900;
+    }
+
+    nav a {
+      color: #fff;
+      margin: 0 14px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      transition: 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #e10600;
+    }
+
+    /* Teléfono */
+    .telefono a {
+      color: #e10600;
+      font-weight: bold;
+      font-size: 16px;
+      text-decoration: none;
+      margin-left: 20px;
+      animation: neon-flicker 2s infinite;
+    }
+
+    @keyframes neon-flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 
+          0 0 4px #e10600,
+          0 0 10px #e10600,
+          0 0 20px #ff1a1a,
+          0 0 30px #ff1a1a;
+        opacity: 1;
+      }
+      20%, 22%, 24%, 55% {
+        text-shadow: none;
+        opacity: 0.3;
+      }
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 100px 0;
+      background: url("images/a90f617d-d7ce-4284-8e79-3629084fb4a2.jpeg") center center/cover no-repeat;
+      color: #fff;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(225,6,0,0.5));
+      z-index: 1;
+    }
+
+    .hero-wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 50px;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 30px;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-text h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      line-height: 1.2;
+      color: #e10600;
+      margin: 0 0 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero-text .sub {
+      font-size: 1.15rem;
+      color: #ddd;
+      margin-bottom: 25px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-primary {
+      background: #e10600;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #b10500;
+    }
+
+    .btn-secundario {
+      background: #8B0000;
+      color: #fff;
+    }
+
+    .btn-secundario:hover {
+      background: #600000;
+    }
+
+    .hero-img {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-img img {
+      max-width: 200px;   /* más pequeño */
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 12px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.6);
+    }
+
+    /* SERVICIOS */
+    .servicios {
+      padding: 60px 30px;
+      background: linear-gradient(to bottom, #000000, #1a1a1a);
+      color: #fff;
+    }
+
+    .servicios h2 {
+      text-align: center;
+      color: #e10600;
+      font-family: 'Orbitron', sans-serif;
+      margin-bottom: 40px;
+      font-size: 2rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .card {
+      background: rgba(20, 20, 20, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+      padding: 18px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+    }
+
+    .card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: #e10600;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      color: #ddd;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .precio {
+      font-weight: bold;
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.3s ease;
+      margin-top: auto;
+    }
+
+    .btn-whatsapp:hover {
+      background: #1ebe5d;
+    }
+
+    /* UBICACION */
+    .ubicacion {
+      padding: 60px 30px;
+      background: #f5f5f5;
+      text-align: center;
+    }
+
+    .ubicacion h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: #e10600;
+      margin-bottom: 25px;
+    }
+
+    .ubicacion img {
+      max-width: 50%;
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    /* UBICACION */
+.ubicacion {
+  padding: 60px 30px;
+  background: linear-gradient(to bottom, #000000, #1a1a1a); /* mismo estilo que servicios */
+  text-align: center;
+  color: white;
+}
+
+.ubicacion h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #e10600; /* rojo como en servicios */
+  margin-bottom: 25px;
+}
+
+.mapa-img {
+  width: 80%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6); /* más oscuro para resaltar */
+}
+
+
+    /* FOOTER */
+    footer {
+      background: #000;
+      color: #fff;
+      padding: 18px;
+      text-align: center;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .telefono {
+        margin-top: 10px;
+      }
+      .hero-wrap {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero-img img {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1><span class="logo-icon">A</span>reaCar</h1>
+    </div>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="telefono">
+      <a href="tel:+584121234567">📞 +584121810708</a>
+    </div>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div class="hero-wrap">
+      <div class="hero-text">
+        <h1>¡Transforma Tu Auto en una Obra de Arte!</h1>
+        <p class="sub">Detailing profesional que hace brillar tu vehículo como nunca antes</p>
+        <div class="hero-buttons">
+          <a href="#contacto" class="btn btn-primary">¡Solicita Tu Presupuesto!</a>
+          <a href="#servicios" class="btn btn-secundario">Ver Servicios</a>
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="images/e9f6a07d-b372-4375-8e28-34b6f44bca48.jpeg" alt="Auto brillante" />
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="servicios" id="servicios">
+    <h2>Paquetes y Servicios</h2>
+    <div class="cards">
+
+      <div class="card">
+        <img src="images/servicio3.jpeg" alt="Lavado Express">
+        <h3>Lavado Express</h3>
+        <p><strong>Ideal para:</strong> mantenimiento rápido con acabado brillante.</p>
+        <ul>
+          <li>Lavado exterior con shampoo con cera</li>
+          <li>Detallado de guardafangos/pasos de rueda</li>
+          <li>Limpieza detallada de rines</li>
+          <li>Aspirado interior</li>
+          <li>Renovador de plásticos internos</li>
+        </ul>
+        <span class="precio">US$20</span>
+        <a href="https://wa.me/584121234567?text=Hola,%20quiero%20el%20Lavado%20Express" class="btn-whatsapp">Adquirir Servicio</a>
+      </div>
+
+      <div class="card">
+        <img src="images/servicio2.jpeg" alt="Limpieza Interior Media">
+        <h3>Limpieza Interior Media</h3>
+        <p><strong>Ideal para:</strong> interiores con suciedad moderada.</p>
+        <ul>
+          <li>Limpieza de asientos y tapicería de puertas</li>
+          <li>Aplicación con vapor y productos de la más alta calidad</li>
+          <li>Sin desarmar piezas del interior</li>
+        </ul>
+        <span class="precio">US$40</span>
+        <a href="https://wa.me/584121234567?text=Hola,%20quiero%20la%20Limpieza%20Interior%20Media" class="btn-whatsapp">Adquirir Servicio</a>
+      </div>
+
+      <div class="card">
+        <img src="images/servicio1.jpeg" alt="Limpieza Interior Extrema">
+        <h3>Limpieza Interior Extrema</h3>
+        <p><strong>Ideal para:</strong> restauración profunda del interior.</p>
+        <ul>
+          <li>Desarmado del interior del vehículo (según corresponda)</li>
+          <li>Lavado y desinfección parte por parte</li>
+          <li>Uso de vapor y productos de la más alta calidad</li>
+        </ul>
+        <span class="precio">US$60</span>
+        <a href="https://wa.me/584121234567?text=Hola,%20quiero%20la%20Limpieza%20Interior%20Extrema" class="btn-whatsapp">Adquirir Servicio</a>
+      </div>
+
+      <div class="card">
+        <img src="images/servicio4.jpeg" alt="Limpieza Motor Extrema">
+        <h3>Limpieza de Motor Extrema</h3>
+        <p>Limpieza profunda con desengrase y acondicionamiento de plásticos.</p>
+        <span class="precio">US$50</span>
+        <a href="https://wa.me/584121234567?text=Hola,%20quiero%20la%20Limpieza%20de%20Motor" class="btn-whatsapp">Adquirir Servicio</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- UBICACION -->
+  <section class="ubicacion" id="ubicacion">
+  <h2>📍 Nuestra Ubicación</h2>
+  <a href="https://www.google.com/maps?q=9.781867980957031,-63.194618225097656&z=17&hl=es" target="_blank">
+    <img src="images/unnamed.jpg" alt="Ubicación AreaCar en mapa caricatura" class="mapa-img">
+  </a>
+</section>
+
+
+  <footer>
+    <p>© 2025 AreaCar - Todos los derechos reservados</p>
+  </footer>
+</body>
+</html>
