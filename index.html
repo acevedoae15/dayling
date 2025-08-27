@@ -64,14 +64,16 @@
     }
 
     /* Teléfono */
-    .telefono a {
-      color: #e10600;
-      font-weight: bold;
-      font-size: 16px;
-      text-decoration: none;
-      margin-left: 13px;
-      animation: neon-flicker 2s infinite;
-    }
+  .telefono a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.whatsapp-icon {
+  width: 32px;   /* tamaño del icono */
+  height: 32px;
+}
+
 
     @keyframes neon-flicker {
       0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
@@ -361,9 +363,12 @@
       <a href="#ubicacion">Ubicación</a>
     </nav>
   <div class="telefono">
+ <div class="telefono">
   <a href="https://wa.me/584121234567" target="_blank">
-    <span class="whatsapp-icon">🟢</span> +584121810708
+    <img src="images/whatsapp-icon.png" alt="WhatsApp" class="whatsapp-icon">
   </a>
+</div>
+
 </div>
 
 </div>
