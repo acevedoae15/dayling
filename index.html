@@ -50,7 +50,8 @@ button:hover{transform:scale(1.05);background:rgba(255,255,255,0.25)}
   <h1 id="title">Driver Mode</h1>
 </div>
 
-<img class="logo" src="https://cdn-icons-png.flaticon.com/512/61/61231.png" />
+<!-- ✅ LOGO LOCAL -->
+<img class="logo" src="images/WhatsApp Image 2026-03-27 at 3.09.43 PM.jpeg" />
 
 <div id="summary" class="summary"></div>
 
@@ -132,13 +133,12 @@ function showResult(){
 
  const fullTimes = ["6:00 - 6:20", "6:40 - 7:00"];
 
- // 🔥 SI ESAS HORAS → SIEMPRE 50 PASAJEROS
  let passengers;
 
  if(fullTimes.includes(state.time)){
-  passengers = 50;
+  passengers = 50; // 🔥 horas llenas
  } else {
-  passengers = Math.floor(Math.random()*21) + 30; // 30–50
+  passengers = Math.floor(Math.random()*21) + 30;
  }
 
  document.getElementById('resultText').innerText = `${passengers} passengers`;
