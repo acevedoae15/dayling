@@ -129,21 +129,20 @@ function createButtons(container,items,key,next){
 }
 
 function showResult(){
- const passengers=Math.floor(Math.random()*21)+30; // 30-50
- const capacity=40;
+ const passengers = Math.floor(Math.random()*21) + 30; // 30-50
+ const capacity = 50;
 
- document.getElementById('resultText').innerText=`${passengers} passengers`;
+ document.getElementById('resultText').innerText = `${passengers} passengers`;
 
- let status="";
- if(passengers>=capacity){
-  status="Bus FULL ❌";
- }else if(passengers>0){
-  status="Passengers onboard ✅";
- }else{
-  status="Empty bus";
+ let status = "";
+
+ if(passengers === 50){
+  status = "Bus FULL ❌";
+ } else {
+  status = "Still space available ✅";
  }
 
- document.getElementById('statusText').innerText=status;
+ document.getElementById('statusText').innerText = status;
  goTo('result');
 }
 
