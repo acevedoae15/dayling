@@ -1,111 +1,45 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BusFast Pro</title>
+<title>BusFast Driver</title>
 
 <style>
-* { box-sizing: border-box; margin:0; padding:0; }
-
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ffcc00, #ff4d6d, #6a5cff);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#ffcc00,#ff4d6d,#6a5cff);
+  display:flex;justify-content:center;align-items:center;height:100vh;
 }
-
-.app {
-    width: 360px;
-    height: 640px;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(20px);
-    border-radius: 25px;
-    padding: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+.app{
+  width:360px;height:640px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(20px);
+  border-radius:25px;padding:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  display:flex;flex-direction:column;justify-content:space-between;
 }
-
-.header {
-    text-align:center;
+.header{text-align:center}
+.header h1{color:white;font-size:22px}
+.logo{width:110px;margin:10px auto;display:block}
+.screen{display:none;flex:1}
+.active{display:flex;flex-direction:column;justify-content:center}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+button{
+  padding:14px;border:none;border-radius:14px;
+  background:rgba(255,255,255,0.15);color:white;font-weight:bold;
+  cursor:pointer;transition:0.25s
 }
-
-.header h1 {
-    font-size: 22px;
-    color:white;
+button:hover{transform:scale(1.05);background:rgba(255,255,255,0.25)}
+.primary{background:linear-gradient(135deg,#6a5cff,#ff4d6d);font-size:18px}
+.result{color:white;text-align:center;font-size:26px}
+.status{margin-top:10px;font-size:16px}
+.back{background:#ff4d6d;margin-top:15px}
+.summary{
+  background:rgba(0,0,0,0.2);
+  padding:10px;border-radius:10px;font-size:12px;margin-bottom:10px;color:white
 }
-
-.logo {
-    width:120px;
-    margin:15px auto;
-    display:block;
-}
-
-.screen { display:none; flex:1; }
-.active { display:flex; flex-direction:column; justify-content:center; }
-
-.grid {
-    display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap:12px;
-}
-
-button {
-    padding: 14px;
-    border:none;
-    border-radius:14px;
-    background: rgba(255,255,255,0.15);
-    color:white;
-    font-weight:bold;
-    font-size:14px;
-    backdrop-filter: blur(5px);
-    cursor:pointer;
-    transition: all 0.25s ease;
-}
-
-button:hover {
-    transform: translateY(-3px) scale(1.03);
-    background: rgba(255,255,255,0.25);
-}
-
-.primary {
-    background: linear-gradient(135deg, #6a5cff, #ff4d6d);
-    font-size:20px;
-}
-
-.summary {
-    background: rgba(0,0,0,0.2);
-    padding:10px;
-    border-radius:12px;
-    font-size:12px;
-    margin-bottom:10px;
-}
-
-.result {
-    text-align:center;
-    font-size:24px;
-    color:white;
-}
-
-.back {
-    background: #ff4d6d;
-    margin-top:15px;
-}
-
-.fade {
-    animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity:0; transform: translateY(10px); }
-    to { opacity:1; transform: translateY(0); }
-}
-
 </style>
 </head>
 <body>
@@ -113,117 +47,115 @@ button:hover {
 <div class="app">
 
 <div class="header">
-    <h1 id="title">BusFast</h1>
+  <h1 id="title">Driver Mode</h1>
 </div>
 
 <img class="logo" src="https://cdn-icons-png.flaticon.com/512/61/61231.png" />
 
 <div id="summary" class="summary"></div>
 
-<div id="start" class="screen active fade">
-    <button class="primary" onclick="goTo('routes')">START</button>
+<div id="start" class="screen active">
+  <button class="primary" onclick="goTo('routes')">START</button>
 </div>
 
-<div id="routes" class="screen fade">
-    <div class="grid" id="routesContainer"></div>
+<div id="routes" class="screen">
+  <div class="grid" id="routesContainer"></div>
 </div>
 
-<div id="stops" class="screen fade">
-    <div class="grid" id="stopsContainer"></div>
+<div id="stops" class="screen">
+  <div class="grid" id="stopsContainer"></div>
 </div>
 
-<div id="times" class="screen fade">
-    <div class="grid" id="timesContainer"></div>
+<div id="times" class="screen">
+  <div class="grid" id="timesContainer"></div>
 </div>
 
-<div id="result" class="screen fade">
-    <div id="resultText" class="result"></div>
-    <button class="back" onclick="resetApp()">Restart</button>
+<div id="result" class="screen">
+  <div id="resultText" class="result"></div>
+  <div id="statusText" class="status"></div>
+  <button class="back" onclick="resetApp()">Restart</button>
 </div>
 
 </div>
 
 <script>
 
-const state = { route:null, stop:null, time:null };
+const state={route:null,stop:null,time:null};
 
-const routes = [1,17,18,19,20,23,72,85];
-const stops = [
-    "Metro Universidad",
-    "Plaza Fiesta Anahuac",
-    "H-E-B Universidad",
-    "Av. Universidad y Nogalar",
-    "Av. Universidad y Sendero"
+const routes=[1,17,18,19,20,23,72,85];
+const stops=[
+"Metro Universidad","Plaza Fiesta Anahuac","H-E-B Universidad",
+"Av. Universidad y Nogalar","Av. Universidad y Sendero"
 ];
-const times = [
-    "6:00 - 6:20",
-    "6:40 - 7:00",
-    "3:00 - 3:20",
-    "3:40 - 4:00",
-    "4:40 - 5:00"
+const times=[
+"6:00 - 6:20","6:40 - 7:00","3:00 - 3:20","3:40 - 4:00","4:40 - 5:00"
 ];
 
-function goTo(screen) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const el = document.getElementById(screen);
-    el.classList.add('active');
-    el.classList.add('fade');
-    updateTitle(screen);
-    updateSummary();
+function goTo(screen){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ document.getElementById(screen).classList.add('active');
+ updateTitle(screen);
+ updateSummary();
 }
 
-function updateTitle(screen) {
-    const titles = {
-        start:"BusFast",
-        routes:"Choose Route",
-        stops:"Choose Stop",
-        times:"Choose Time",
-        result:"Result"
-    };
-    document.getElementById('title').innerText = titles[screen];
+function updateTitle(screen){
+ const titles={
+  start:"Driver Mode",
+  routes:"In what route you driving?",
+  stops:"Choose the stop",
+  times:"At what time are you arriving?",
+  result:"Bus Status"
+ };
+ document.getElementById('title').innerText=titles[screen];
 }
 
-function updateSummary() {
-    document.getElementById('summary').innerHTML = `
-        Route: ${state.route || '-'} | 
-        Stop: ${state.stop || '-'} | 
-        Time: ${state.time || '-'}
-    `;
+function updateSummary(){
+ document.getElementById('summary').innerHTML=`
+ Route: ${state.route||'-'} | Stop: ${state.stop||'-'} | Time: ${state.time||'-'}
+ `;
 }
 
-function createButtons(containerId, items, key, next) {
-    const container = document.getElementById(containerId);
-    items.forEach(item => {
-        const btn = document.createElement('button');
-        btn.innerText = item;
-        btn.onclick = () => {
-            state[key] = item;
-            localStorage.setItem('busAppState', JSON.stringify(state));
-            next === 'result' ? showResult() : goTo(next);
-        };
-        container.appendChild(btn);
-    });
+function createButtons(container,items,key,next){
+ const el=document.getElementById(container);
+ items.forEach(i=>{
+  const btn=document.createElement('button');
+  btn.innerText=i;
+  btn.onclick=()=>{
+   state[key]=i;
+   if(next==='result') showResult(); else goTo(next);
+  };
+  el.appendChild(btn);
+ });
 }
 
-function showResult() {
-    const result = document.getElementById('resultText');
-    const probability = Math.random();
-    result.innerText = probability < 0.7 ? "You're on line ✅" : "Bus is full ❌";
-    goTo('result');
+function showResult(){
+ const passengers=Math.floor(Math.random()*21)+30; // 30-50
+ const capacity=40;
+
+ document.getElementById('resultText').innerText=`${passengers} passengers`;
+
+ let status="";
+ if(passengers>=capacity){
+  status="Bus FULL ❌";
+ }else if(passengers>0){
+  status="Passengers onboard ✅";
+ }else{
+  status="Empty bus";
+ }
+
+ document.getElementById('statusText').innerText=status;
+ goTo('result');
 }
 
-function resetApp() {
-    Object.keys(state).forEach(k => state[k]=null);
-    localStorage.removeItem('busAppState');
-    goTo('start');
+function resetApp(){
+ state.route=null;state.stop=null;state.time=null;
+ goTo('start');
 }
 
-createButtons('routesContainer', routes, 'route', 'stops');
-createButtons('stopsContainer', stops, 'stop', 'times');
-createButtons('timesContainer', times, 'time', 'result');
+createButtons('routesContainer',routes,'route','stops');
+createButtons('stopsContainer',stops,'stop','times');
+createButtons('timesContainer',times,'time','result');
 
-const saved = localStorage.getItem('busAppState');
-if(saved) Object.assign(state, JSON.parse(saved));
 updateSummary();
 
 </script>
