@@ -110,7 +110,7 @@ function updateTitle(screen){
 }
 
 function updateSummary(){
- document.getElementById('summary').innerHTML=`
+ document.getElementById('summary').innerHTML = `
  Route: ${state.route||'-'} | Stop: ${state.stop||'-'} | Time: ${state.time||'-'}
  `;
 }
@@ -129,14 +129,19 @@ function createButtons(container,items,key,next){
 }
 
 function showResult(){
- const passengers = Math.floor(Math.random()*21) + 30; // 30-50
+ const passengers = Math.floor(Math.random()*21) + 30;
  const capacity = 50;
 
  document.getElementById('resultText').innerText = `${passengers} passengers`;
 
  let status = "";
 
- if(passengers === 50){
+ // 🔥 Horas que siempre están llenas
+ const fullTimes = ["6:00 - 6:20", "6:40 - 7:00"];
+
+ if(fullTimes.includes(state.time)){
+  status = "Bus FULL ❌";
+ } else if(passengers >= capacity){
   status = "Bus FULL ❌";
  } else {
   status = "Still space available ✅";
